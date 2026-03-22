@@ -13,22 +13,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup Mingw (g++)
-      uses: egor-tensin/setup-gcc@v1
+    - name: Setup MinGW
+      uses: egor-tensin/setup-mingw@v2
       with:
-        version: latest
         platform: x64
 
     - name: Build Application
+      shell: cmd
       run: |
-        if ("${{ matrix.build_type }}" -eq "Debug") {
-          g++ net_deleter.cpp -o net_deleter_debug.exe -DDEBUG_MODE -DERROR_MODE -DINFO_MODE -static
-        } else {
-          g++ net_deleter.cpp -o net_deleter.exe -O3 -static
-        }
+        if "${{ matrix.build_type }}"=="Debug" (
+          g++ net_deleter.cpp -o NetDeleter_debug.exe -DDEBUG_MODE -DERROR_MODE -DINFO_MODE -static
+        ) else (
+          g++ net_deleter.cpp -o NetDeleter.exe -O3 -static
+        )
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: net_deleter-${{ matrix.build_type }}
+        name: NetDeleter-${{ matrix.build_type }}
         path: "*.exe"
