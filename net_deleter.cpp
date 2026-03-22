@@ -123,7 +123,7 @@ int main( int argc, char* argv[] )
                 std::string fullDeleteCommand = command + " " + dev.instanceID;
                 auto [ status, output ] = ExecCommand( fullDeleteCommand );
                 INFO_LOG( "Result: " << output );
-                if ( status == ResultCommand::Error || output.find( "Failed" ) )
+                if ( output.find( "Failed" ) )
                 {
                     ERROR_LOG( "Failed to remove: " << dev.instanceID );
                     continue;
