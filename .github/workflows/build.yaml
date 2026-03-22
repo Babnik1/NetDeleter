@@ -2,11 +2,15 @@ name: C++ Build CI
 
 on: [push, pull_request]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
 
     strategy:
+      fail-fast: false
       matrix:
         build_type: [Debug, Release]
 
@@ -16,14 +20,16 @@ jobs:
     - name: Setup MSYS2
       uses: msys2/setup-msys2@v2
       with:
-        update: true
+        msystem: MINGW64
+        release: false # Используем предустановленный MSYS2 (самый быстрый и стабильный путь)
+        update: false  # Не обновляем систему, чтобы не зависло
         install: mingw-w64-x86_64-gcc
 
     - name: Build Application
       shell: msys2 {0}
       run: |
         if [ "${{ matrix.build_type }}" == "Debug" ]; then
-          g++ net_deleter.cpp -o NetDeleter_debug.exe -DDEBUG_MODE -DERROR_MODE -DINFO_MODE -static
+          g++ net_deleter.cpp -o NetDeleter_debug.exe -g -DDEBUG_MODE -DERROR_MODE -DINFO_MODE -static
         else
           g++ net_deleter.cpp -o NetDeleter.exe -O3 -DERROR_MODE -DINFO_MODE -static
         fi
