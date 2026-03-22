@@ -13,19 +13,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup MinGW
-      uses: egor-tensin/setup-mingw@v2
+    - name: Setup MSYS2
+      uses: msys2/setup-msys2@v2
       with:
-        platform: x64
+        update: true
+        install: mingw-w64-x86_64-gcc
 
     - name: Build Application
-      shell: cmd
+      shell: msys2 {0}
       run: |
-        if "${{ matrix.build_type }}"=="Debug" (
+        if [ "${{ matrix.build_type }}" == "Debug" ]; then
           g++ net_deleter.cpp -o NetDeleter_debug.exe -DDEBUG_MODE -DERROR_MODE -DINFO_MODE -static
-        ) else (
+        else
           g++ net_deleter.cpp -o NetDeleter.exe -O3 -static
-        )
+        fi
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
