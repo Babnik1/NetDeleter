@@ -25,7 +25,7 @@ jobs:
         if [ "${{ matrix.build_type }}" == "Debug" ]; then
           g++ net_deleter.cpp -o NetDeleter_debug.exe -DDEBUG_MODE -DERROR_MODE -DINFO_MODE -static
         else
-          g++ net_deleter.cpp -o NetDeleter.exe -O3 -static
+          g++ net_deleter.cpp -o NetDeleter.exe -O3 -DERROR_MODE -DINFO_MODE -static
         fi
 
     - name: Upload Artifacts
