@@ -1,0 +1,13 @@
+# Исполняемые файлы (Windows)
+*.exe
+*.debug.exe
+
+# Папки VS Code и отладчика
+.vscode/
+.history/
+
+# Временные файлы компилятора
+*.o
+*.obj
+*.pdb
+*.ilk
